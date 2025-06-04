@@ -1,10 +1,10 @@
-# Gophercon Sg 2025 Hardware Hack Session
+# Gophercon EU 2025 Hardware Hack Session
 
-![Gophercon SG logo](./images/gophercon-sg-2025.png)
+![Gophercon EU logo](./images/gophercon-eu-logo.png)
 
-The is the repository for the hardware hack session at Gophercon SG 2025.
+The is the repository for the hardware hack session at Gophercon EU 2025.
 
-https://2025.gophercon.sg/
+https://www.gophercon.eu/
 
 ### Please return all equipment when you are finished for the next person. Thank you!
 
@@ -34,7 +34,7 @@ Ready to try this out? Go to [./sensor/arduino/](./sensor/arduino/) to get start
 
 We have Parrot Minidrones you can fly with Go code to control them using their built-in Bluetooth API.
 
-Post in-flight videos using hashtag #gopherconsg
+Post in-flight videos using hashtag #gopherconeu
 
 Ready for takeoff? Go to [./drone/minidrone/](./drone/minidrone/).
 
@@ -44,7 +44,7 @@ Ready for takeoff? Go to [./drone/minidrone/](./drone/minidrone/).
 
 Along for the ride, we brought a couple of WowWee MiP two-wheeled self-balancing robots that you control using Bluetooth.
 
-Post robot videos using hashtag #gopherconsg
+Post robot videos using hashtag #gopherconeu
 
 Ready to roll? Go to https://github.com/hybridgroup/tinygo-mip.
 

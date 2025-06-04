@@ -5,13 +5,13 @@
 First use git to clone this repo to your local machine:
 
 ```
-git clone https://github.com/hybridgroup/gopherconsg-2025.git
-cd gopherconsg-2025
+git clone https://github.com/hybridgroup/gopherconeu-2025.git
+cd gopherconeu-2025
 ```
 
-## Install Go 1.23
+## Install Go 1.24
 
-If somehow you have not installed Go 1.23 on your computer already, you can download it here:
+If somehow you have not installed Go 1.24 on your computer already, you can download it here:
 
 https://go.dev/dl/
 
