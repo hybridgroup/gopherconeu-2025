@@ -1,0 +1,41 @@
+<html>
+<head>
+    <title>TinyGo HTTP Server</title>
+    <link href="mincss.min.css" rel="stylesheet" type="text/css">
+    <style>
+        .hero {
+            background: #eee;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 1em;
+        }
+
+        .hero h1 {
+            margin-top: 0;
+            margin-bottom: 0.3em;
+        }
+	</style>
+    <script language="javascript" type="text/javascript">
+        function ledOn() { fetch("/on"); }
+        function ledOff() { fetch("/off"); }
+    </script>
+</head>
+<body>
+    <nav class="nav" tabindex="-1" onclick="this.focus()">
+        <div class="container">
+            <a class="pagename current" href="#">TinyGo HTTP Server</a>
+            <a href="/6">Six</a> 
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <h1>Alarm System</h1>
+            <p>
+                <a class="btn btn-b" href="javascript:ledOn();">On</a>
+                <a class="btn btn-c" href="javascript:ledOff();">Off</a><br>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

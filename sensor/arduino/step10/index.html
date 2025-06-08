@@ -1,0 +1,74 @@
+<html>
+<head>
+    <title>TinyGo HTTP Server</title>
+    <link href="mincss.min.css" rel="stylesheet" type="text/css">
+    <style>
+        .hero {
+            background: #eee;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 1em;
+        }
+
+        .hero h1 {
+            margin-top: 0;
+            margin-bottom: 0.3em;
+        }
+	</style>
+    <script language="javascript" type="text/javascript">
+        var status, slider, alarm;
+        var currentStatus = "waiting for connection";
+        function ledOn() { fetch("/on"); }
+        function ledOff() { fetch("/off"); }
+        function fetchStatus() { fetch("/status").then(response => response.json()).then(json => { currentStatus = json.status; document.getElementById('status').innerHTML = currentStatus; }); }
+        setInterval(fetchStatus, 1000);
+        function setAlarmLevel() { fetch("/alarmlevel", {
+            method: "POST",
+            body: "level=" + document.getElementById("levelSlider").value,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        }).then(response => response.json()).then(json => { currentStatus = "new alarm level set to "+json.level; document.getElementById('status').innerHTML = currentStatus; }); return false; }
+        function onLoad() {
+            slider = document.getElementById("levelSlider");
+            alarm = document.getElementById("alarm");
+            
+            alarm.innerHTML = slider.value;
+            slider.oninput = function() {
+                alarm.innerHTML = this.value;
+            }
+            fetchStatus();
+        }
+    </script>
+</head>
+<body onLoad="onLoad()">
+    <nav class="nav" tabindex="-1" onclick="this.focus()">
+        <div class="container">
+            <a class="pagename current" href="#">TinyGo HTTP Server</a>
+            <a href="/6">Six</a> 
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <h1>Alarm System</h1>
+        </div>
+        <div class="row">
+            <div class="col">
+            <h2>Status: <span id="status">waiting for connection...</span></h2>
+            <p>
+                <a class="btn btn-b" href="javascript:ledOn();">On</a>
+                <a class="btn btn-c" href="javascript:ledOff();">Off</a><br>
+            </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h2>Set Alarm Level: <span id="alarm">10000</span></h2>
+                <form id="form1" style="display: inline" onSubmit="return setAlarmLevel()">
+                    <input class="smooth" type="range" min="1000" max="64000" value="10000" id="levelSlider">
+                    <input class="smooth" type="button" value="Set Level" onClick="setAlarmLevel()">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

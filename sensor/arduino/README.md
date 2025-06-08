@@ -208,17 +208,96 @@ tinygo flash -target nano-rp2040 ./step6/
 
 The dial should now cause the OLED display to show its current position. The OLED should also have two empty circles that will light up when you press the Button to light up the Blue LED and when you press the touch sensor respectively.
 
+### step7.go - Green LED, Button, Red LED, Buzzer, Touch, Dial, OLED display - Alarm Logic
 
-### step7.go - Green LED, Button, Red LED, Buzzer, Touch, Dial, MQTT
+![Arduino](./assets/step6.jpg)
+
+Now that we have assembled all of the hardware for the sensor device, let's implement some logic to make it into an alarm system. 
+
+We now want it to work like this: 
+
+- when the button is pushed, the alarm system is made active if it is off, and turned off if it is on. the green LED should light up to indicate if the alarm system is active.
+- when the rotary dial is turned above a certain level, the alarm buzzer should sound. This indicates that the "power level has been exceeded".
+- when the touch sensor is touched, the red LED should light up, and the alarm buzzer should sound. this is like a test of the system.
+
+Take look at the changes to the code to implement this in step 7. Now try flashing the updated code and trying it out.
+
+```
+tinygo flash -target nano-rp2040 ./step7/
+```
+
+### step8.go - Alarm System Web Server - LED control
+
+![Arduino Web Server](./assets/arduino-http-webserver.png)
+
+In this step we will connect to the built-in wireless chip on the board and set it up to act as a WiFi Access Point.
+
+The code for the wireless connection is in the file `wifi.go`.
+
+We will run a tiny web server on the board itself, that is intended to allow the user to manage the device using a web browser. No additional hardware is required for this step.
+
+Take a look at the code in the file `webserver.go`. A few things of note:
+
+- The HTML page is embedded into the binary that is loaded onto the Arduino using the normal `go:embed` directive.
+- Likewise the CSS file is also embedded into the binary. The CSS is from a very small framework called [MinCSS](https://mincss.com/docs.html).
+- Even though it is running on the Arduino, the normal `net/html` package is used to implement the web server using calls to `http.HandleFunc()` and `http.ListenAndServe()`.
+
+You need to create unique values for your access point to not interfere with other people, so replace `myssid` and `mypass` for your WiFi setup, then flash the board with the following command:
+
+```
+tinygo flash -target nano-rp2040 -ldflags="-X main.ssid=myssid -X main.pass=mypass" -stack-size 8kb ./step8/
+```
+
+#### How to tell if it is working
+
+Connect your computer to the access point running on the Arduino, then open a new browser window and connect to http://192.168.4.1:8080/
+
+Click on the "On" button on the web page to activate the alarm system. Click on the "Off" button to deactivate it.
+
+### step9.go - Alarm System Web Server - See alarm status
+
+![Arduino](./assets/step6.jpg)
+
+Now we will modify the web server so we can see the alarm system status on the web page.
+
+Remember to replace `myssid` and `mypass` for your WiFi setup, then flash the board with the following command:
+
+```
+tinygo flash -target nano-rp2040 -ldflags="-X main.ssid=myssid -X main.pass=mypass" -stack-size 8kb ./step9/
+```
+
+#### How to tell if it is working
+
+Connect your computer to the access point, then open a new browser window and connect to http://192.168.4.1:8080/
+
+### step10.go - Alarm System Web Server - Set alarm limit
+
+![Arduino](./assets/step6.jpg)
+
+Now we will modify the web server so we can set the limit for the rotary dial to trigger the alarm from the web page.
+
+Remember to replace `myssid` and `mypass` for your WiFi setup, then flash the board with the following command:
+
+```
+tinygo flash -target nano-rp2040 -ldflags="-X main.ssid=myssid -X main.pass=mypass" -stack-size 8kb ./step10/
+```
+
+#### How to tell if it is working
+
+Connect your computer to the access point, then open a new browser window and connect to http://192.168.0.1
+
+### mqtt.go (bonus step) - Green LED, Button, Red LED, Buzzer, Touch, Dial, OLED display, MQTT
 
 ![Arduino](./assets/step6.jpg)
 
 In this step we will connect to a machine to machine messaging server using the [MQTT machine to machine messaging protocol](https://en.wikipedia.org/wiki/MQTT). No additional hardware is required for this step.
 
+However, now instead of the Arduino acting as a wireless access point, we need to connect it as a device to an existing access point so it can access the Internet.
+
 Substitute the correct values for your WiFi setup in the following command:
 
 ```
-tinygo flash -target nano-rp2040 -ldflags="-X main.ssid=TinyGoHackDay -X main.pass=community" ./step7/
+tinygo flash -target nano-rp2040 -ldflags="-X main.ssid=TinyGoHackDay -X main.pass=community" -stack-size 8kb ./step8/
 ```
 
 ## How to tell if it is working
