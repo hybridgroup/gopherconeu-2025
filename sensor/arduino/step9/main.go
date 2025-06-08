@@ -38,8 +38,10 @@ var (
 
 func main() {
 	initDevices()
+	connectWifi()
 
 	go handleDisplay()
+	go startWebServer()
 
 	for {
 		systemActivationStatusButton()
@@ -97,8 +99,12 @@ func handleDisplay() {
 	for {
 		display.ClearBuffer()
 
-		val := strconv.Itoa(int(dialValue))
-		msg := "dial: " + val
+		msg := "off"
+		if systemActive {
+			val := strconv.Itoa(int(dialValue))
+			msg = "pwr: " + val
+		}
+
 		tinyfont.WriteLine(&display, &freemono.Bold9pt7b, 10, 20, msg, black)
 
 		var radius int16 = 4
