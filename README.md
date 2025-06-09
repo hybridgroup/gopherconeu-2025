@@ -28,6 +28,12 @@ There are some Grove sensor kits that you can use for the activity.
 
 Ready to try this out? Go to [./sensor/arduino/](./sensor/arduino/) to get started.
 
+### Bluetooth Sensor
+
+This series of tutorials is intended to help you learn about programming Bluetooth devices using TinyGo and the TinyGo Bluetooth package. Using a Arduino Nano RP2040 Connect IoT microcontroller board and tiny display, discover the Bluetooth devices all around us, and make one of your own.
+
+Ready to Go wireless? Click on [./bluetooth/arduino/](./bluetooth/arduino/) to get started.
+
 ### Parrot Minidrones
 
 ![Parrot Minidrone](./images/minidrone.jpg)
