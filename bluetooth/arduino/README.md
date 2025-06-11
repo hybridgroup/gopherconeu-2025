@@ -100,7 +100,7 @@ tinygo flash -target nano-rp2040 -stack-size=8kb -monitor -ldflags="-X main.Devi
 You should see the output on both your terminal, and also on the nano-rp2040 display.
 
 
-### step5.go - Bluetooth heart rate
+### step5.go - Bluetooth heart rate monitor
 
 Now that you know how to find Bluetooth devices that are nearby you and how to connect to them, you can proceed to try to do something useful.
 
@@ -126,7 +126,9 @@ tinygo flash -target nano-rp2040 -stack-size=8kb -monitor -ldflags="-X main.Devi
 You can connect from the nano-rp2040 to your mobile phone or any other device/software that can produce the data from a standard Bluetooth heart rate device.
 
 
-### step6.go - Bluetooth heart rate on nano-rp2040 display
+### step6.go - Bluetooth heart rate monitor on nano-rp2040 display
+
+This is the same heart rate device as the previous example, but it also shows the data on the nano-rp2040 display. You will still need to connect to your mobile phone or any other device/software that can produce the data for a standard Bluetooth heart rate device.
 
 Run the code.
 
@@ -134,4 +136,53 @@ Run the code.
 tinygo flash -target nano-rp2040 -stack-size=8kb -monitor -ldflags="-X main.DeviceAddress=[MAC address or Bluetooth ID goes here]" ./step6
 ```
 
-This is the same heart rate device as the previous example, but it also shows the data on the nano-rp2040 display. You will still need to connect to your mobile phone or any other device/software that can produce the data for a standard Bluetooth heart rate device.
+### step7.go - Bluetooth peripheral - advertising
+
+Now it is time to flip this around. We will turn the Arduino into the actual heart rate sensor itself.
+
+The first step is just to make the Arduino advertise that it is ready to have something connect.
+
+Run this to flash the code onto the Arduino. Make sure you change `yournamehere` to some short but unique name, so you do not get the device mixed up with someone else's device:
+
+```shell
+tinygo flash -target nano-rp2040 -stack-size=8kb -ldflags="-X main.DeviceName='yournamehere'" ./step7
+```
+
+Once the code is running on the board, we can scan for it by running the code from step 1, but this time on your computer:
+
+```shell
+go run ./step1
+```
+
+Your terminal should output something like this:
+
+```shell
+$ go run ./step1/
+scanning...
+found device: 58:BF:25:3B:E2:3A -56 yournamehere
+found device: 58:BF:25:3B:E2:3A -57 yournamehere
+found device: 58:BF:25:3B:E2:3A -55 yournamehere
+found device: 58:BF:25:3B:E2:3A -55 yournamehere
+```
+
+Hit "ctrl-C" on your keyboard to stop scanning.
+
+### step8.go - Bluetooth peripheral - heart rate
+
+We are now ready to start sending heart rate data fro the board.
+
+Run this to flash the code onto the Arduino. Remember to change `yournamehere` again:
+
+```shell
+tinygo flash -target nano-rp2040 -stack-size=8kb -ldflags="-X main.DeviceName='yournamehere'" ./step8
+```
+
+Once the code is running on the board, you can connect to it from any application that can read the standard heart rate sensor profile.
+
+First try by running the "heartmonitor" program on your computer. Replace the MAC address (`58:BF:25:3B:E2:3A`) with the address from your own device. If you are not sure what it is, remember you can run `go run ./step1` to scan for it!
+
+```shell
+go run ./heartmonitor/ 58:BF:25:3B:E2:3A
+```
+
+If you have a mobile application that can connect to heart rate sensors, it should work with your Arduino to display the data. Give it a try!
